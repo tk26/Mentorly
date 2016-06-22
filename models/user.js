@@ -1,18 +1,11 @@
+//grab database configuration
+var dbConfig = require('../dbConfig.js');
+
 //grab mongoose
 var mongoose = require('mongoose');
 
 //connect to the local MongoDB database
-mongoose.connect('mongodb://localhost/mentorly');
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function(){
-	console.log('connection success');
-});
-
-/*
-//grab mongoose
-var mongoose = require('mongoose');
-*/
+mongoose.connect(dbConfig.url);
 
 //grab Schema
 var Schema = mongoose.Schema;
@@ -25,7 +18,6 @@ var userSchema = new Schema({
   	user_auth_token : String,
   	user_created_at : Date
 });
-
 
 //create a model using schema
 var User = mongoose.model('User', userSchema);
