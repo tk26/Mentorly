@@ -1,10 +1,39 @@
+//import essentials
 var express = require('express');
-
 var app = express();
+var port     = process.env.PORT || 3000;
+var passport = require('passport');
+var flash    = require('connect-flash');
+var morgan       = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser   = require('body-parser');
+var session      = require('express-session');
 
-app.get('/', function(req, res){
-	res.send('Hello from Server');
-});
+//connect to the mongodb
+var dbConfig = require('./dbConfig.js');
+var mongoose = require('mongoose');
+mongoose.connect(dbConfig.url);
 
-app.listen(3000);
-console.log('Listening on Port 3000');
+//set up app
+app.use(morgan('dev')); // log every request to the console
+app.use(cookieParser()); // read cookies (needed for auth)
+app.use(bodyParser()); // get information from html forms
+
+//set up ejs for templating
+app.set('view engine', 'ejs');
+
+// required for passport
+app.use(session({ secret: 'sessionsecret' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+//load our routes and pass in our app and fully configured passport
+require('./routes.js')(app, passport);
+
+//launch the app
+app.listen(port);
+console.log('Listening on port ' + port);
+
+/*app.listen(3000);
+console.log('Listening on port 3000');*/
