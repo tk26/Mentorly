@@ -23,6 +23,7 @@ app.use(bodyParser()); // get information from html forms
 app.set('view engine', 'ejs');
 
 // required for passport
+require('./passport')(passport); // pass passport for configuration
 app.use(session({ secret: 'sessionsecret' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
