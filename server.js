@@ -17,14 +17,15 @@ mongoose.connect(dbConfig.url);
 //set up app
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
-app.use(bodyParser()); // get information from html forms
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 
 //set up ejs for templating
 app.set('view engine', 'ejs');
 
 // required for passport
 require('./passport')(passport); // pass passport for configuration
-app.use(session({ secret: 'sessionsecret' })); // session secret
+app.use(session({ secret: 'sessionsecret', resave: true, saveUninitialized: true })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
@@ -35,6 +36,3 @@ require('./routes.js')(app, passport);
 //launch the app
 app.listen(port);
 console.log('Listening on port ' + port);
-
-/*app.listen(3000);
-console.log('Listening on port 3000');*/
