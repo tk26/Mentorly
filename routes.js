@@ -18,6 +18,12 @@ module.exports = function(app, passport) {
         failureFlash : true
     }));
 
+    app.post('/login', passport.authenticate('local-login', {
+        successRedirect : '/profile', // redirect to the secure profile section
+        failureRedirect : '/login', // redirect back to the signup page if there is an error
+        failureFlash : true // allow flash messages
+    }));
+
     app.get('/profile', isLoggedIn, function(req, res) {
         res.render('profile.ejs', {
             user : req.user
