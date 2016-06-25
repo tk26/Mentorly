@@ -3,17 +3,11 @@ var bcrypt   = require('bcrypt-nodejs');
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
-
-    local            : {
         email        : String,
         password     : String,
-    },
-    facebook         : {
-        id           : String,
-        token        : String,
-        email        : String,
-        name         : String
-    }
+        first_name   : String,
+        last_name    : String,
+        gender       : String
 });
 
 //Hash Generator
@@ -23,8 +17,8 @@ userSchema.methods.generateHash = function(password) {
 
 //Password Validator
 userSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.local.password);
+    return bcrypt.compareSync(password, this.password);
 };
 
 //Create Model for export
-module.exports = mongoose.model('user_passport', userSchema);
+module.exports = mongoose.model('users', userSchema);
