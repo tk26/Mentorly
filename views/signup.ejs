@@ -18,7 +18,7 @@
         <% if (message.length > 0) { %>
             <div class="alert alert-danger"><%= message %></div>
         <% } %>
-        <form action="/login" method="post">
+        <form action="/signup" method="post">
             <div class="form-group">
                 <i class="fa fa-envelope-o fa-fw"></i><input type="text" class="form-control" name="email" placeholder="Email address">
             </div>
@@ -28,6 +28,9 @@
 
             <button type="submit" class="btn btn-warning btn-lg">Signup</button>
         </form>
+        <hr>
+        <p>Login or Register with:</p>
+        <a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
         <hr>
         <p>Already have an account? <a href="/login">Login</a></p>
         <p>Take me to <a href="/">Home</a></p>
